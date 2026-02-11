@@ -6,7 +6,7 @@ import java.util.List;
 public class FlatFileJsonResponse {
 
     private HeaderRecord header;
-    private List<BodyRecord> bodies;
+    private BodyRecord body;
 
     public HeaderRecord getHeader() {
         return header;
@@ -16,11 +16,11 @@ public class FlatFileJsonResponse {
         this.header = header;
     }
 
-    public List<BodyRecord> getBodies() {
-        return bodies;
+    public BodyRecord getBody() {
+        return body;
     }
 
-    public void setBodies(List<BodyRecord> bodies) {
-        this.bodies = bodies;
+    public void setBody(BodyRecord body) {
+        this.body = body;
     }
 }

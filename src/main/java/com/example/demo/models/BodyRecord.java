@@ -3,32 +3,44 @@ package com.example.demo.models;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 import org.apache.camel.dataformat.bindy.annotation.FixedLengthRecord;
 
-@FixedLengthRecord
+@FixedLengthRecord(length = 24)
 public class BodyRecord {
-    @DataField(pos = 1, length = 3)
+
+    @DataField(required = true, trim = true, pos = 1, length = 3)
     public Integer recordId;
-    @DataField(pos = 4, length = 20, trim = true)
+
+    @DataField(required = true, trim = true, pos = 4, length = 20)
     public String itemNumber;
-    @DataField(pos = 24, length = 12, trim = true)
+
+    /*@DataField(required = false, trim = true, pos = 24, length = 12)
     public String lot;
-    @DataField(pos = 36, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 36, length = 9, defaultValue = "0")
     public double quantityOnHandNotOnHold;
-    @DataField(pos = 45, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 45, length = 9, defaultValue = "0")
     public double quantityOnHandOnHold;
-    @DataField(pos = 54, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 54, length = 9, defaultValue = "0")
     public double quantityInReceiving;
-    @DataField(pos = 63, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 63, length = 9, defaultValue = "0")
     public double quantityInShipping;
-    @DataField(pos = 72, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 72, length = 9, defaultValue = "0")
     public double quantityAllocatedNotOnHold;
-    @DataField(pos = 81, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 81, length = 9, defaultValue = "0")
     public double quantityAllocatedOnHold;
-    @DataField(pos = 90, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 90, length = 9, defaultValue = "0")
     public double quantityOrderedNotAllocated;
-    @DataField(pos = 99, length = 9, defaultValue = "0")
+
+    @DataField(required = false, trim = true, pos = 99, length = 9, defaultValue = "0")
     public double suspendedQuantity;
-    @DataField(pos = 108, length = 18, trim = true)
-    public String ownerId;
+
+    @DataField(required = false, trim = true, pos = 108, length = 18)
+    public String ownerId;*/
 
     public Integer getRecordId() {
         return recordId;
@@ -46,7 +58,7 @@ public class BodyRecord {
         this.itemNumber = itemNumber;
     }
 
-    public String getLot() {
+    /*public String getLot() {
         return lot;
     }
 
@@ -117,12 +129,12 @@ public class BodyRecord {
     public void setSuspendedQuantity(double suspendedQuantity) {
         this.suspendedQuantity = suspendedQuantity;
     }
-
-    public String getOwnerId() {
+*/
+    /*public String getOwnerId() {
         return ownerId;
     }
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
-    }
+    }*/
 }

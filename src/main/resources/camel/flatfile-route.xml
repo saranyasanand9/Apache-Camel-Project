@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://camel.apache.org/schema/spring">
 
-    <route id="flat-file-to-json-route">
-        <from uri="file:input?fileName=flatFile.dat&amp;noop=true"/>
+    <route id="employee-flatfile-to-json">
+        <from uri="file:input?noop=true"/>
+
         <log message="Reading file: ${header.CamelFileName}"/>
 
-        <unmarshal>
-            <bindy type="Fixed" classType="com.example.demo.models.HeaderRecord"/>
-        </unmarshal>
-
-        <bean ref="fileProcessor" method="prepareData"/>
+        <process ref="flatFileToEmployeeProcessor"/>
 
         <split>
             <simple>${body}</simple>
-            <process ref="jsonFormattingProcessor"/>
+
             <marshal>
-                <json library="Jackson" prettyPrint="true"/>
+                <json library="Jackson"/>
             </marshal>
-            <log message="\n--- Individual JSON Record ---\n${body}"/>
+
+            <log message="Employee JSON:\n${body}"/>
         </split>
     </route>
+
 </routes>

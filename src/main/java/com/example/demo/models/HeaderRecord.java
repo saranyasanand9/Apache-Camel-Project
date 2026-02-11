@@ -3,17 +3,23 @@ package com.example.demo.models;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 import org.apache.camel.dataformat.bindy.annotation.FixedLengthRecord;
 
-@FixedLengthRecord
-public class HeaderRecord {
+import java.util.Date;
 
-    @DataField(pos = 1, length = 3)
-    String recordId;
-    @DataField(pos = 14, length = 6)
+@FixedLengthRecord(length = 44)
+public class HeaderRecord {
+    @DataField(required = true, trim = true, pos = 10, length = 6)
     String fromNode;
-    @DataField(pos = 20, length = 8)
+
+    @DataField(required = true, trim = true, pos = 1, length = 3)
+    String recordId;
+
+    @DataField(required = true, trim = true, pos = 17, length = 7)
     String seqNumber;
-    @DataField(pos = 28, length = 14)
-    String publishDateTime;
+
+    @DataField(required = true, trim = true, pos = 24, length = 14,  pattern = "yyyyMMddHHmmss")
+    Date publishDateTime;
+
+
 
     public String getRecordId() {
         return recordId;
@@ -39,11 +45,11 @@ public class HeaderRecord {
         this.seqNumber = seqNumber;
     }
 
-    public String getPublishDateTime() {
+    public Date getPublishDateTime() {
         return publishDateTime;
     }
 
-    public void setPublishDateTime(String publishDateTime) {
+    public void setPublishDateTime(Date publishDateTime) {
         this.publishDateTime = publishDateTime;
     }
 }
