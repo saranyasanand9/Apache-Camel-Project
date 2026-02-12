@@ -1,22 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://camel.apache.org/schema/spring">
 
-    <route id="employee-flatfile-to-json">
+    <route id="flatfile-995-800-route">
+
         <from uri="file:input?noop=true"/>
 
-        <log message="Reading file: ${header.CamelFileName}"/>
+        <log message="Processing file: ${header.CamelFileName}"/>
 
-        <process ref="flatFileToEmployeeProcessor"/>
-
+        <!-- Split file line by line -->
         <split>
-            <simple>${body}</simple>
+            <tokenize token="\n"/>
+            <choice>
+                <when>
+                    <simple>${body} startsWith '995'</simple>
+                    <unmarshal>
+                        <bindy type="Fixed"
+                               classType="com.example.demo.models.HeaderRecord"/>
+                    </unmarshal>
+                    <setProperty name="fileHeader">
+                        <simple>${body}</simple>
+                    </setProperty>
 
-            <marshal>
-                <json library="Jackson"/>
-            </marshal>
+                    <log message="Header captured: ${exchangeProperty.fileHeader}"/>
+                    <setBody>
+                        <method beanType="com.example.demo.component.WrapperBuilder"
+                                method="build"/>
+                    </setBody>
+                </when>
 
-            <log message="Employee JSON:\n${body}"/>
+                <when>
+                    <simple>${body} startsWith '800'</simple>
+                    <unmarshal>
+                        <bindy type="Fixed"
+                               classType="com.example.demo.models.BodyRecord"/>
+                    </unmarshal>
+                    <setProperty name="currentBody">
+                        <simple>${body}</simple>
+                    </setProperty>
+
+                    <setBody>
+                        <method beanType="com.example.demo.component.WrapperBuilder"
+                                method="build"/>
+                    </setBody>
+
+                    <!-- Convert to proper JSON -->
+                    <marshal>
+                        <json library="Jackson"/>
+                    </marshal>
+
+                    <log message="Generated JSON: ${body}"/>
+                </when>
+
+                <otherwise>
+                    <log message="Ignoring record: ${body}"/>
+                </otherwise>
+
+            </choice>
+
         </split>
+
     </route>
 
 </routes>

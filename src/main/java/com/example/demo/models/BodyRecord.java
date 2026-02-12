@@ -3,7 +3,7 @@ package com.example.demo.models;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 import org.apache.camel.dataformat.bindy.annotation.FixedLengthRecord;
 
-@FixedLengthRecord(length = 24)
+@FixedLengthRecord(ignoreTrailingChars = true)
 public class BodyRecord {
 
     @DataField(required = true, trim = true, pos = 1, length = 3)
@@ -12,7 +12,7 @@ public class BodyRecord {
     @DataField(required = true, trim = true, pos = 4, length = 20)
     public String itemNumber;
 
-    /*@DataField(required = false, trim = true, pos = 24, length = 12)
+    @DataField(required = false, trim = true, pos = 24, length = 12)
     public String lot;
 
     @DataField(required = false, trim = true, pos = 36, length = 9, defaultValue = "0")
@@ -40,7 +40,7 @@ public class BodyRecord {
     public double suspendedQuantity;
 
     @DataField(required = false, trim = true, pos = 108, length = 18)
-    public String ownerId;*/
+    public String ownerId;
 
     public Integer getRecordId() {
         return recordId;
@@ -58,7 +58,7 @@ public class BodyRecord {
         this.itemNumber = itemNumber;
     }
 
-    /*public String getLot() {
+    public String getLot() {
         return lot;
     }
 
@@ -129,12 +129,30 @@ public class BodyRecord {
     public void setSuspendedQuantity(double suspendedQuantity) {
         this.suspendedQuantity = suspendedQuantity;
     }
-*/
-    /*public String getOwnerId() {
+
+    public String getOwnerId() {
         return ownerId;
     }
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
-    }*/
+    }
+
+    @Override
+    public String toString() {
+        return "BodyRecord{" +
+                "recordId=" + recordId +
+                ", itemNumber='" + itemNumber + '\'' +
+                ", lot='" + lot + '\'' +
+                ", quantityOnHandNotOnHold=" + quantityOnHandNotOnHold +
+                ", quantityOnHandOnHold=" + quantityOnHandOnHold +
+                ", quantityInReceiving=" + quantityInReceiving +
+                ", quantityInShipping=" + quantityInShipping +
+                ", quantityAllocatedNotOnHold=" + quantityAllocatedNotOnHold +
+                ", quantityAllocatedOnHold=" + quantityAllocatedOnHold +
+                ", quantityOrderedNotAllocated=" + quantityOrderedNotAllocated +
+                ", suspendedQuantity=" + suspendedQuantity +
+                ", ownerId='" + ownerId + '\'' +
+                '}';
+    }
 }
