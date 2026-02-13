@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://camel.apache.org/schema/spring">
-    <routeConfiguration id="errorConfig">
+
+    <route id="flatfile-995-800-route">
+
         <onException>
             <exception>org.apache.camel.ValidationException</exception>
             <handled><constant>true</constant></handled>
@@ -14,10 +16,6 @@
             <log message="SYSTEM ERROR: Unexpected error occurred: ${exception.stacktrace}" loggingLevel="ERROR"/>
             <to uri="file:error?fileName=${header.CamelFileName}.invalid"/>
         </onException>
-    </routeConfiguration>
-
-
-    <route id="flatfile-995-800-route">
 
         <from uri="file:input?noop=true"/>
 
