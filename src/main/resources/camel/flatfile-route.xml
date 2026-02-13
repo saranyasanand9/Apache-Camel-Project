@@ -2,19 +2,24 @@
 <routes xmlns="http://camel.apache.org/schema/spring">
 
     <route id="flatfile-995-800-route">
+        <onException>
+            <exception>org.apache.kafka.common.errors.SerializationException</exception>
+            <handled><constant>true</constant></handled>
+            <log message="Kafka Serialization Error: ${exception.message}" loggingLevel="ERROR"/>
+            <to uri="log:kafkaSerializationError"/>
+        </onException>
 
         <onException>
-            <exception>org.apache.camel.ValidationException</exception>
+            <exception>org.apache.kafka.common.KafkaException</exception>
             <handled><constant>true</constant></handled>
-            <log message="VALIDATION ERROR: ${exception.message} in file ${header.CamelFileName}" loggingLevel="ERROR"/>
-            <to uri="file:error?fileName=${header.CamelFileName}.invalid"/>
+            <log message="Kafka General Error: ${exception.message}" loggingLevel="ERROR"/>
+            <to uri="log:kafkaGeneralError"/>
         </onException>
 
         <onException>
             <exception>java.lang.Exception</exception>
             <handled><constant>true</constant></handled>
             <log message="SYSTEM ERROR: Unexpected error occurred: ${exception.stacktrace}" loggingLevel="ERROR"/>
-            <to uri="file:error?fileName=${header.CamelFileName}.invalid"/>
         </onException>
 
         <from uri="file:input?noop=true"/>
