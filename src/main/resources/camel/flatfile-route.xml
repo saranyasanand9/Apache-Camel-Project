@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<routes xmlns="http://camel.apache.org/schema/spring">
-
+<camelContext xmlns="http://camel.apache.org/schema/spring">
+    <onException>
+        <exception>java.lang.Exception</exception>
+        <handled><constant>true</constant></handled>
+        <log message="Error processing file: ${exception.message}" loggingLevel="ERROR"/>
+    </onException>
     <route id="flatfile-995-800-route">
 
         <from uri="file:input?noop=true"/>
@@ -48,7 +52,8 @@
                         <json library="Jackson"/>
                     </marshal>
 
-                    <log message="Generated JSON: ${body}"/>
+                    <log message="Sending to kafka: ${body}"/>
+                    <to uri="kafka:flatfile-topic?brokers=kafka-2541682b-saranyasanand9-bae4.g.aivencloud.com:20449"/>
                 </when>
 
                 <otherwise>
@@ -61,4 +66,4 @@
 
     </route>
 
-</routes>
+</camelContext>

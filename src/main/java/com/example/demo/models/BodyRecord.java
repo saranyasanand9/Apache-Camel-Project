@@ -16,28 +16,28 @@ public class BodyRecord {
     public String lot;
 
     @DataField(required = false, trim = true, pos = 36, length = 9, defaultValue = "0")
-    public double quantityOnHandNotOnHold;
+    public Double quantityOnHandNotOnHold;
 
     @DataField(required = false, trim = true, pos = 45, length = 9, defaultValue = "0")
-    public double quantityOnHandOnHold;
+    public Double quantityOnHandOnHold;
 
     @DataField(required = false, trim = true, pos = 54, length = 9, defaultValue = "0")
-    public double quantityInReceiving;
+    public Double quantityInReceiving;
 
     @DataField(required = false, trim = true, pos = 63, length = 9, defaultValue = "0")
-    public double quantityInShipping;
+    public Double quantityInShipping;
 
     @DataField(required = false, trim = true, pos = 72, length = 9, defaultValue = "0")
-    public double quantityAllocatedNotOnHold;
+    public Double quantityAllocatedNotOnHold;
 
     @DataField(required = false, trim = true, pos = 81, length = 9, defaultValue = "0")
-    public double quantityAllocatedOnHold;
+    public Double quantityAllocatedOnHold;
 
     @DataField(required = false, trim = true, pos = 90, length = 9, defaultValue = "0")
-    public double quantityOrderedNotAllocated;
+    public Double quantityOrderedNotAllocated;
 
     @DataField(required = false, trim = true, pos = 99, length = 9, defaultValue = "0")
-    public double suspendedQuantity;
+    public Double suspendedQuantity;
 
     @DataField(required = false, trim = true, pos = 108, length = 18)
     public String ownerId;
