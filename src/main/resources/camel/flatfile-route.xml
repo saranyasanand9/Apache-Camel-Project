@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<camelContext xmlns="http://camel.apache.org/schema/spring">
-    <onException>
-        <exception>java.lang.Exception</exception>
-        <handled><constant>true</constant></handled>
-        <log message="Error processing file: ${exception.message}" loggingLevel="ERROR"/>
-    </onException>
+<routes xmlns="http://camel.apache.org/schema/spring">
+    <routeConfiguration id="errorConfig">
+        <onException>
+            <exception>org.apache.camel.ValidationException</exception>
+            <handled><constant>true</constant></handled>
+            <log message="VALIDATION ERROR: ${exception.message} in file ${header.CamelFileName}" loggingLevel="ERROR"/>
+            <to uri="file:error?fileName=${header.CamelFileName}.invalid"/>
+        </onException>
+
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <handled><constant>true</constant></handled>
+            <log message="SYSTEM ERROR: Unexpected error occurred: ${exception.stacktrace}" loggingLevel="ERROR"/>
+            <to uri="file:error?fileName=${header.CamelFileName}.invalid"/>
+        </onException>
+    </routeConfiguration>
+
+
     <route id="flatfile-995-800-route">
 
         <from uri="file:input?noop=true"/>
@@ -21,6 +33,7 @@
                         <bindy type="Fixed"
                                classType="com.example.demo.models.HeaderRecord"/>
                     </unmarshal>
+                    <bean beanType="com.example.demo.component.RecordValidator" method="validateHeader"/>
                     <setProperty name="fileHeader">
                         <simple>${body}</simple>
                     </setProperty>
@@ -38,6 +51,7 @@
                         <bindy type="Fixed"
                                classType="com.example.demo.models.BodyRecord"/>
                     </unmarshal>
+                    <bean beanType="com.example.demo.component.RecordValidator" method="validate"/>
                     <setProperty name="currentBody">
                         <simple>${body}</simple>
                     </setProperty>
@@ -66,4 +80,4 @@
 
     </route>
 
-</camelContext>
+</routes>
