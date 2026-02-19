@@ -15,12 +15,42 @@
             <log message="Kafka General Error: ${exception.message}" loggingLevel="ERROR"/>
             <to uri="log:kafkaGeneralError"/>
         </onException>
-
         <onException>
-            <exception>java.lang.Exception</exception>
+            <exception>com.example.demo.models.RecordValidationException</exception>
             <handled><constant>true</constant></handled>
-            <log message="SYSTEM ERROR: Unexpected error occurred: ${exception.stacktrace}" loggingLevel="ERROR"/>
+
+            <log message="VALIDATION ERROR: ${exception.message}" loggingLevel="ERROR"/>
+
+            <setBody>
+                <simple>
+                    {
+                    "error": "${exception.message}",
+                    "fieldName": "${exception.fieldName}",
+                    "recordId": "${exception.recordId}",
+                    "rowNumber": "${exception.rowNumber}",
+                    "originalMessage": "${exchangeProperty.originalRawLine}"
+                    }
+                </simple>
+            </setBody>
+
+            <to uri="kafka:flatfile-error?brokers=kafka-2541682b-saranyasanand9-bae4.g.aivencloud.com:20449"/>
         </onException>
+
+         <onException>
+             <exception>java.lang.Exception</exception>
+             <handled><constant>true</constant></handled>
+             <log message="SYSTEM ERROR: Unexpected error occurred: ${exception.stacktrace}" loggingLevel="ERROR"/>
+             <setBody>
+                 <simple>
+                     {
+                     "error": "${exception.message}",
+                     "stacktrace": "${exception.stacktrace}",
+                     "originalMessage": "${exchangeProperty.originalRawLine}"
+                     }
+                 </simple>
+             </setBody>
+             <to uri="kafka:flatfile-error?brokers=kafka-2541682b-saranyasanand9-bae4.g.aivencloud.com:20449"/>
+         </onException>
 
         <from uri="file:input?noop=true"/>
 
@@ -29,6 +59,9 @@
         <!-- Split file line by line -->
         <split>
             <tokenize token="\n"/>
+            <setProperty name="originalRawLine">
+                <simple>${body}</simple>
+            </setProperty>
             <choice>
                 <when>
                     <simple>${body} startsWith '995'</simple>
@@ -36,7 +69,7 @@
                         <bindy type="Fixed"
                                classType="com.example.demo.models.HeaderRecord"/>
                     </unmarshal>
-                    <bean beanType="com.example.demo.component.RecordValidator" method="validateHeader"/>
+
                     <setProperty name="fileHeader">
                         <simple>${body}</simple>
                     </setProperty>

@@ -6,40 +6,40 @@ import org.apache.camel.dataformat.bindy.annotation.FixedLengthRecord;
 @FixedLengthRecord(ignoreTrailingChars = true)
 public class BodyRecord {
 
-    @DataField(required = true, trim = true, pos = 1, length = 3)
+    @DataField( trim = true, pos = 1, length = 3)
     public Integer recordId;
 
-    @DataField(required = true, trim = true, pos = 4, length = 20)
+    @DataField( trim = true, pos = 4, length = 20)
     public String itemNumber;
 
-    @DataField(required = false, trim = true, pos = 24, length = 12)
+    @DataField( trim = true, pos = 24, length = 12)
     public String lot;
 
-    @DataField(required = false, trim = true, pos = 36, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 36, length = 9, defaultValue = "0")
     public Double quantityOnHandNotOnHold;
 
-    @DataField(required = false, trim = true, pos = 45, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 45, length = 9, defaultValue = "0")
     public Double quantityOnHandOnHold;
 
-    @DataField(required = false, trim = true, pos = 54, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 54, length = 9, defaultValue = "0")
     public Double quantityInReceiving;
 
-    @DataField(required = false, trim = true, pos = 63, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 63, length = 9, defaultValue = "0")
     public Double quantityInShipping;
 
-    @DataField(required = false, trim = true, pos = 72, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 72, length = 9, defaultValue = "0")
     public Double quantityAllocatedNotOnHold;
 
-    @DataField(required = false, trim = true, pos = 81, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 81, length = 9, defaultValue = "0")
     public Double quantityAllocatedOnHold;
 
-    @DataField(required = false, trim = true, pos = 90, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 90, length = 9, defaultValue = "0")
     public Double quantityOrderedNotAllocated;
 
-    @DataField(required = false, trim = true, pos = 99, length = 9, defaultValue = "0")
+    @DataField( trim = true, pos = 99, length = 9, defaultValue = "0")
     public Double suspendedQuantity;
 
-    @DataField(required = false, trim = true, pos = 108, length = 18)
+    @DataField( trim = true, pos = 108, length = 18)
     public String ownerId;
 
     public Integer getRecordId() {
